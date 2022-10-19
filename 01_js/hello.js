@@ -29,3 +29,35 @@ const greeting = function (name = 'Anonymous') {
 }
 
 console.log(greeting())
+
+
+const numbers = [1,2,3,4,5]
+
+console.log(numbers[0])
+console.log(numbers[1])
+console.log(numbers.length)
+console.log(numbers[numbers.length-2])
+
+numbers.reverse()
+console.log(numbers)
+
+numbers.push(100)
+console.log(numbers)
+
+numbers.pop()
+console.log(numbers)
+
+
+console.log(numbers.includes(1))
+console.log(numbers.includes(100))
+
+console.log(numbers.indexOf(3))
+console.log(numbers.indexOf(100))
+
+console.log(numbers.join())  // 생략시 쉼표가 기본 값임
+console.log(numbers.join(''))
+console.log(numbers.join(' '))
+console.log(numbers.join('-'))
+
+
+
