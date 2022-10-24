@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <input type="text" id="text-input">
+  <p></p>
+  <script>
+    // 1. input 선택
+    const inputTag = document.querySelector('#text-input')
+
+    // 2. 이벤트 핸들로 부착
+    inputTag.addEventListener('input', function (event) {
+      // console.log(event)
+
+      // 내가 쓰고 있는 값 가져오는 코드. 
+      // 인풋의 밸류값.
+      // console.log(event.target.value)
+      //p태그 선택
+      const pTag = document.querySelector('p')
+      pTag.innerText = event.target.value
+
+    })
+
+  </script>
+</body>
+</html>

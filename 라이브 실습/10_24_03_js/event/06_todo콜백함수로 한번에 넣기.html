@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <form action="#">
+    <input type="text" class="inputData">
+    <input type="submit" value="Add">
+  </form>
+  <ul></ul>
+
+  <script>
+    //form 의 기본 이벤트 막기
+    // 주소가 바뀌는 form의 액션 기능 막기
+    // 여기서 해야할것은 요청을 보내는게아님
+    // action으로 요청을 보내면안됨. form의 기본동작을 막아야함
+    const formTag = document.querySelector('form')
+
+
+    const addTodo = function (event) {
+      // console.log(event)
+      event.preventDefault() // 이코드를 작성하면 이벤트가 막힌다.
+
+      const inputTag = document.querySelector('.inputData')
+      const data = inputTag.value //인풋 데이터 가져오기
+      // console.log(data)
+
+
+      if (data.trim()){ // 공백시 버튼 안눌리게 하는 기능. 양쪽 공백제거함수를 이용.
+
+        //리스트 태그를 먼저 만들고
+        const liTag = document.createElement('li')
+        //리스트 태그에 innerText로 data 저장해둔것 넣어준다.
+        liTag.innerText = data
+
+        const ulTag = document.querySelector('ul')
+        ulTag.appendChild(liTag)
+
+
+        event.target.reset() // 입력시 인풋 초기화 하기.
+
+      } else{
+
+        alert('내용을 입력하세요!')
+
+      }
+      
+    }
+
+    //함수를 표현식으로 빼주고 그 콜백함수만
+    // 함수 자리에 넣어준다.
+
+    formTag.addEventListener('submit', addTodo)
+
+
+
+
+  </script>
+</body>
+</html>

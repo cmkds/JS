@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  
+  <script>
+
+    const aaContainer = document.createElement('div')
+    
+    // 이곳에 코드를 작성합니다.
+    const aTag = document.createElement('a')
+    aTag.setAttribute('href', 'https://edu.ssafy.com/edu/main/index.do')
+    aTag.innerHTML = 'ssafy'
+    // aTag.style.color ='violet'
+
+    aTag.addEventListener('click', function (event) {
+      event.preventDefault()
+
+    })
+    console.log(aTag)
+    aaContainer.appendChild(aTag)
+
+  </script>
+</body>
+</html>
