@@ -1,0 +1,111 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h1>{{ person.username }}님의 프로필</h1>
+  <div>
+    팔로워 : <span id="followers-count">{{ person.followers.all|length }}</span> /
+    팔로잉 : <span id="followings-count">{{ person.followings.all|length }}</span>
+  </div>
+
+  {% if request.user != person %}
+  <div>
+    <form id="follow-form" data-user-id="{{ person.pk }}">
+      {% csrf_token %}
+      {% if request.user in person.followers.all %}
+        <input type="submit" value="언팔로우" id="followButton">
+      {% else %}
+        <input type="submit" value="팔로우" id="followButton">
+      {% endif %}
+    </form>
+  <div>
+  {% endif %}
+
+  <h2>{{ person.username }}이 작성한 모든 게시글</h2>
+  {% for article in person.article_set.all %}
+    <div>{{ article.title }}</div>
+  {% endfor %}
+
+  <hr>
+
+  <h2>{{ person.username }}이 작성한 모든 댓글</h2>
+  {% for comment in person.comment_set.all %}
+    <div>{{ comment.content }}</div>
+  {% endfor %}
+
+  <hr>
+
+  <h2>{{ person.username }}이 좋아요 한 모든 게시글</h2>
+  {% for article in person.like_articles.all %}
+    <div>{{ article.title }}</div>
+  {% endfor %}
+
+  <a href="{% url 'articles:index' %}">back</a>
+{% endblock content %}
+
+
+{% block script %}
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script>
+  const form = document.querySelector('#follow-form')
+  // console.log(form)
+  form.addEventListener('submit', function (event) {
+    event.preventDefault()
+
+    console.log(event.target.dataset)
+
+    const userId = event.target.dataset.userId
+    // 위에 form 에서 보낸 것중 data는 dataset으로 user_id가 userId로 자동으로 변함.
+
+    //csrftoken 가져오기 attribute로 선택하기 => 대괄호 안에 집어 넣기
+    console.log(form)
+    const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value
+
+    console.log(csrftoken)
+
+
+
+    axios({
+      method : 'post',
+      url : `/accounts/${userId}/follow/`,
+      headers : {'X-CSRFToken': csrftoken,}   //여기 csrftoken 위에서 셀렉트 한 녀석의 value 다.
+    
+    })
+      .then((response)=>{
+        const isFollowed = response.data.is_followed
+        // console.log(isFollowed)
+
+        //선택
+        const followBtn = document.querySelector('#followButton')
+        console.log(followBtn)
+        
+        
+
+        
+        //조작
+        //followBtn.value =  // 를 팔로우 또는 언팔로우에 따라 변경하고 싶다
+        if (isFollowed) {
+          followBtn.value ="언팔로우"
+        }else{
+          followBtn.value ="팔로우"
+        }
+
+        const followersCountTag = document.querySelector('#followers-count')
+        const followingsCountTag = document.querySelector('#followings-count')
+
+        const followersCount = response.data.followersCount
+        const followingsCount = response.data.followingsCount
+
+        followersCountTag.innerText = followersCount
+        followingsCountTag.innerText = followingsCount
+        
+      })
+      .catch((error)=>{
+        console.error(error)
+      })
+
+  })
+</script>
+
+{% endblock script %}
+
+
